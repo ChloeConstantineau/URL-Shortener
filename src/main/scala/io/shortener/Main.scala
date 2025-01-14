@@ -21,21 +21,20 @@ object Main extends ZIOAppDefault:
         def get[A: Schema]: BinaryCodec[A] = ProtobufCodec.protobufCodec
       })) >>> Redis.singleNode
 
-    private val shortLinkRepoRedis =
-      for
-          config        <- ZIO.config[AppConfig]
-          alphabet      <- Alphabet.live(config.genConfig.alphabet)
-          slugGenerator <- SlugGenerator.live(alphabet)
-          repo          <- ShortLinkRepoRedisImpl.live(slugGenerator, config.counterKey)
-      yield repo
+    private val repoLayer =
+      ZLayer.fromZIO:
+        for
+            config        <- ZIO.config[AppConfig]
+            alphabet      <- Alphabet.live(config.genConfig.alphabet)
+            slugGenerator <- SlugGenerator.live(alphabet)
+            repo          <- ShortLinkRepoRedisImpl.live(slugGenerator, config.counterKey)
+        yield repo
 
     private val server = serverConfig.project(s => Server.Config.default.port(s.port)) >>> Server.live
 
-    private val layers = (redisLayer >>> ZLayer.fromZIO(shortLinkRepoRedis)) ++ serverConfig ++ server
+    private val layers = (redisLayer >>> repoLayer) ++ serverConfig ++ server
 
     def run: ZIO[Any, Throwable, Nothing] =
       Server
         .serve(AppRoutes.routes)
         .provide(layers)
-
-    // TODO Tests
