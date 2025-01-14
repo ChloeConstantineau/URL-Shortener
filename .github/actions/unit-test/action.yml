@@ -1,0 +1,15 @@
+name: Unit Test
+description: Test with container dependencies
+runs:
+  using: composite
+  steps:
+    - name: Setup Environment
+      uses: ./.github/actions/setup
+
+    - name: Docker Compose
+      run: docker compose up -d
+      shell: bash
+
+    - name: Unit Test
+      run: sbt test
+      shell: bash
