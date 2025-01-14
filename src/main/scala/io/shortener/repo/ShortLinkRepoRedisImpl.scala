@@ -1,12 +1,13 @@
 package io.shortener.repo
 
-import io.shortener.service.SlugGenerator
 import io.shortener.models.*
 import zio.*
 import zio.redis.Redis
+import io.shortener.slug.SlugGenerator
+
 import java.net.{URI, URL}
 
-private final case class ShortLinkRepoRedisImpl(
+final case class ShortLinkRepoRedisImpl(
     redis: Redis,
     slugGenerator: SlugGenerator,
     counterKey: String,
@@ -15,8 +16,8 @@ private final case class ShortLinkRepoRedisImpl(
     override def register(url: URL): Task[RegisterResponse] =
       for {
         count <- redis.incr(counterKey)
-        slug  <- slugGenerator.generateSlug(count.toInt)
-        _     <- redis.set(slug, url.toString)
+        slug  <- slugGenerator.encode(count)
+        _     <- redis.set(slug.value, url.toString)
       } yield RegisterResponse(slug, url)
 
     override def lookup(slug: String): Task[Option[URL]] =

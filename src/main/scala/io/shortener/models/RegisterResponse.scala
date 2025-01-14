@@ -6,7 +6,7 @@ import zio.schema.{DeriveSchema, Schema}
 import java.net.URL
 
 case class RegisterResponse(
-    slug: String,
+    slug: Slug,
     destination: URL,
 )
 

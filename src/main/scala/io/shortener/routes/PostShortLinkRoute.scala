@@ -55,7 +55,7 @@ object PostShortLinkRoute:
                             })
             response   <-
               ZIO
-                .attempt(URI(serverUrl + "/" + registered.slug).toURL)
+                .attempt(URI(serverUrl + "/" + registered.slug.value).toURL)
                 .foldZIO(
                   e => ZIO.logError(e.getMessage) *> ZIO.fail(InternalError(e.getMessage)),
                   su => ZIO.succeed(ShortLinkResponse(su, registered.destination)),
