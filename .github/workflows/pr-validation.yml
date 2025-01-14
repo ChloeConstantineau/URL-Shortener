@@ -14,7 +14,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up scala environment
-        uses: ./.github/actions/setup
-      - name: Run unit-tests
-        run: sbt test
+      - name: Unit Test
+        uses: ./.github/actions/unit-test
