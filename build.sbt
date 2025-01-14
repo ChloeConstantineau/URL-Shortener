@@ -34,16 +34,16 @@ lazy val root = project
   )
 
 lazy val dependencies            = Seq(
-  "dev.zio"    %% "zio"                 % "2.1.14",
-  "dev.zio"    %% "zio-config"          % "4.0.3",
-  "dev.zio"    %% "zio-config-magnolia" % "4.0.3",
-  "dev.zio"    %% "zio-config-typesafe" % "4.0.3",
-  "dev.zio"    %% "zio-http"            % "3.0.1",
-  "dev.zio"    %% "zio-json"            % "0.7.4",
-  "dev.zio"    %% "zio-redis"           % "1.0.0",
-  "dev.zio"    %% "zio-test"            % "2.1.14" % Test,
-  "dev.zio"    %% "zio-test-magnolia"   % "2.1.14" % Test,
-  "dev.zio"    %% "zio-test-sbt"        % "2.1.14" % Test,
+  "dev.zio" %% "zio"                 % "2.1.14",
+  "dev.zio" %% "zio-config"          % "4.0.3",
+  "dev.zio" %% "zio-config-magnolia" % "4.0.3",
+  "dev.zio" %% "zio-config-typesafe" % "4.0.3",
+  "dev.zio" %% "zio-http"            % "3.0.1",
+  "dev.zio" %% "zio-json"            % "0.7.4",
+  "dev.zio" %% "zio-redis"           % "1.0.0",
+  "dev.zio" %% "zio-test"            % "2.1.14" % Test,
+  "dev.zio" %% "zio-test-magnolia"   % "2.1.14" % Test,
+  "dev.zio" %% "zio-test-sbt"        % "2.1.14" % Test,
 )
 // ************
 // *****************************************************************

@@ -1,15 +1,15 @@
 package io.shortener
 
+import io.shortener.AppConfig.serverConfig
 import io.shortener.repo.{ShortLinkRepo, ShortLinkRepoRedisImpl}
 import io.shortener.routes.AppRoutes
-import io.shortener.service.SlugGeneratorImpl
+import io.shortener.slug.{Alphabet, SlugGenerator}
 import zio.*
-import zio.redis.*
 import zio.config.typesafe.*
 import zio.http.*
+import zio.redis.*
 import zio.schema.*
 import zio.schema.codec.*
-import io.shortener.AppConfig.serverConfig
 
 object Main extends ZIOAppDefault:
 
@@ -24,7 +24,8 @@ object Main extends ZIOAppDefault:
     private val shortLinkRepoRedis =
       for
           config        <- ZIO.config[AppConfig]
-          slugGenerator <- SlugGeneratorImpl.live(config.slugGeneratorConfig)
+          alphabet      <- Alphabet.live(config.genConfig.alphabet)
+          slugGenerator <- SlugGenerator.live(alphabet)
           repo          <- ShortLinkRepoRedisImpl.live(slugGenerator, config.counterKey)
       yield repo
 

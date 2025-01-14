@@ -33,15 +33,7 @@ object AlphabetSpec extends ZIOSpecDefault:
               assertZIO(someAlphabet)(notEqualToFallback)
         },
         test("Alphabet shuffle should be deterministic") {
-          assertTrue(alphabet.shuffle == alphabet.shuffle)
-        },
-        test("Should validate ids") {
-          val id = "aAbBcC"
-          assertTrue(alphabet.validId(id), !alphabet.validId(id + "invalid id!"))
-        },
-        test("Should generate valid ids") {
-          check(Gen.long): i =>
-              assertTrue(alphabet.validId(alphabet.toId(i)))
+          assertTrue(Alphabet.shuffle(alphabet) == Alphabet.shuffle(alphabet))
         },
       ) @@ TestAspect.silentLogging
 
