@@ -5,8 +5,10 @@ import org.typelevel.scalacoptions.ScalacOptions
 // Global settings
 // *****************************************************************************
 
-ThisBuild / version             := "1.0"
-ThisBuild / scalaVersion        := "3.6.2"
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
+ThisBuild / version             := "1.0.0"
+ThisBuild / scalaVersion        := "3.5.2"
 ThisBuild / scalacOptions ++= Seq("-deprecation", "-unchecked")
 ThisBuild / semanticdbEnabled   := true // For scalafix
 ThisBuild / semanticdbVersion   := scalafixSemanticdb.revision
@@ -45,12 +47,12 @@ lazy val dependencies            = Seq(
   "dev.zio" %% "zio-test-magnolia"   % "2.1.14" % Test,
   "dev.zio" %% "zio-test-sbt"        % "2.1.14" % Test,
 )
-// ************
-// *****************************************************************
+
+// *****************************************************************************
 // Options
 // *****************************************************************************
+
 lazy val additionalScalacOptions = Set(
-  ScalacOptions.release("23"),
   ScalacOptions.source3,
   ScalacOptions.verboseTypeDiffs,
   ScalacOptions.verboseImplicits,
