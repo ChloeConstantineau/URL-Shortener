@@ -1,7 +1,8 @@
 package io.shortener.repo
 
-import zio.*
 import io.shortener.models.*
+import zio.*
+
 import java.net.URL
 
 trait ShortLinkRepo:

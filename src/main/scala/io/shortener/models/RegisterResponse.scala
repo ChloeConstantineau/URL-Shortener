@@ -1,7 +1,7 @@
 package io.shortener.models
 
-import zio.schema.annotation.description
 import zio.schema.{DeriveSchema, Schema}
+import zio.schema.annotation.description
 
 import java.net.URL
 
