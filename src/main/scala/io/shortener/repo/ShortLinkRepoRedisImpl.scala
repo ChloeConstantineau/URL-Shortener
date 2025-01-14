@@ -1,15 +1,15 @@
 package io.shortener.repo
 
 import io.shortener.models.*
+import io.shortener.slug.SlugGeneratorT
 import zio.*
 import zio.redis.Redis
-import io.shortener.slug.SlugGenerator
 
 import java.net.{URI, URL}
 
 final case class ShortLinkRepoRedisImpl(
     redis: Redis,
-    slugGenerator: SlugGenerator,
+    slugGenerator: SlugGeneratorT,
     counterKey: String,
 ) extends ShortLinkRepo:
 
@@ -26,10 +26,18 @@ final case class ShortLinkRepoRedisImpl(
         .returning[String]
         .foldZIO(
           e => ZIO.fail(new Exception(e.getMessage)),
-          res => ZIO.succeed(res.map(URI(_).toURL)),
+          res =>
+            res.fold(ZIO.succeed(None))(s =>
+              ZIO
+                .attempt(URI(s).toURL)
+                .foldZIO(
+                  e => ZIO.logError(s"Registered slug `$s` is not a valid URL") *> ZIO.fail(e),
+                  r => ZIO.succeed(Some(r)),
+                ),
+            ),
         )
 
 object ShortLinkRepoRedisImpl:
-    def live(slugGenerator: SlugGenerator, counterKey: String): ZIO[Redis, Nothing, ShortLinkRepoRedisImpl] =
+    def live(slugGenerator: SlugGeneratorT, counterKey: String): ZIO[Redis, Nothing, ShortLinkRepoRedisImpl] =
       for redis <- ZIO.service[Redis]
       yield ShortLinkRepoRedisImpl(redis, slugGenerator, counterKey)
