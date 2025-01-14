@@ -43,7 +43,7 @@ object PostShortLinkRoute:
 
     private val routeHandler = handler: (req: ShortLinkRequest) =>
         for
-            _          <- ZIO.logInfo(s"[POST] /shorten endpoint called")
+            _          <- ZIO.logInfo("[POST] /shorten endpoint called")
             serverUrl  <- ZIO.service[ServerConfig].map(_.url)
             repo       <- ZIO.service[ShortLinkRepo]
             registered <- repo

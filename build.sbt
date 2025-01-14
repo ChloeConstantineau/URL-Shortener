@@ -35,7 +35,7 @@ lazy val root = project
     libraryDependencies ++= dependencies,
   )
 
-lazy val dependencies            = Seq(
+lazy val dependencies = Seq(
   "dev.zio" %% "zio"                 % "2.1.14",
   "dev.zio" %% "zio-config"          % "4.0.3",
   "dev.zio" %% "zio-config-magnolia" % "4.0.3",

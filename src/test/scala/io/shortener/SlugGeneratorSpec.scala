@@ -1,7 +1,6 @@
 package io.shortener
 
-import io.shortener.slug.SlugGenerator
-import io.shortener.slug.Alphabet
+import io.shortener.slug.{Alphabet, SlugGenerator}
 import zio.{Scope, ZIO}
 import zio.test.*
 

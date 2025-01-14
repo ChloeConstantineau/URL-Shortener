@@ -1,8 +1,7 @@
 package io.shortener
 
-import zio.*
+import zio.{Config, *}
 import zio.config.magnolia.*
-import zio.Config
 import zio.redis.RedisConfig
 
 case class ServerConfig(url: String, port: Int)
