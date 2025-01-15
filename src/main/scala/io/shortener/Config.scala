@@ -5,15 +5,15 @@ import zio.config.magnolia.*
 import zio.redis.RedisConfig
 
 case class ServerConfig(url: String, port: Int)
-case class SlugGeneratorOptions(
+case class SlugGeneratorConfig(
     alphabet: Option[String],
+    counterKey: String,
 )
 
 case class AppConfig(
-    counterKey: String,
-    genConfig: SlugGeneratorOptions,
     redis: RedisConfig,
     server: ServerConfig,
+    slugGenerator: SlugGeneratorConfig,
 ) derives Config
 
 object AppConfig:

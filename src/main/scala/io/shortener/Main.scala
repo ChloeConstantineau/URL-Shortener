@@ -25,9 +25,9 @@ object Main extends ZIOAppDefault:
       ZLayer.fromZIO:
           for
               config        <- ZIO.config[AppConfig]
-              alphabet      <- Alphabet.live(config.genConfig.alphabet)
+              alphabet      <- Alphabet.live(config.slugGenerator.alphabet)
               slugGenerator <- SlugGenerator.live(alphabet)
-              repo          <- ShortLinkRepoRedisImpl.live(slugGenerator, config.counterKey)
+              repo          <- ShortLinkRepoRedisImpl.live(slugGenerator, config.slugGenerator.counterKey)
           yield repo
 
     private val server = serverConfig.project(s => Server.Config.default.port(s.port)) >>> Server.live
