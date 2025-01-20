@@ -17,6 +17,11 @@ object AppRoutes:
     )
 
     private val swaggerRoutes = SwaggerUI.routes("openapi", openAPI)
+    private val appRoutes     =
+      (GetShortLinkRoute.route ++ PostShortLinkRoute.route) @@ HandlerAspect.requestLogging(
+        logRequestBody = true,
+        logResponseBody = true,
+      )
 
     val routes: Routes[ShortLinkRepo & ServerConfig, Response] =
-      GetShortLinkRoute.route ++ PostShortLinkRoute.route ++ swaggerRoutes
+      appRoutes ++ swaggerRoutes

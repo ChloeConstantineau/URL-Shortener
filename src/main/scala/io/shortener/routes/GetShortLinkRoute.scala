@@ -30,7 +30,6 @@ object GetShortLinkRoute:
     private val routeHandler: Handler[ShortLinkRepo, AppError, String, Header.Location] =
       handler: (slug: String) =>
           for
-              _              <- ZIO.logInfo("[GET] /:slug endpoint called")
               repo           <- ZIO.service[ShortLinkRepo]
               maybeShortLink <- repo
                                   .lookup(slug)
